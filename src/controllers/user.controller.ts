@@ -1,6 +1,6 @@
 // /Users/morkraksa/Documents/Node Application/node_app_01/src/controllers/user.controller.ts
 // /Users/morkraksa/Documents/NextTest/testnode/src/controllers/user.controller.ts
-import { Controller, Route, Post, Get, Body, Path, Put, Delete, Query } from 'tsoa';
+import { Controller, Route, Post, Get, Body, Path, Put, Delete, Query, SuccessResponse } from 'tsoa';
 import { IUser, UserCreationParams } from '../database/model/user.model';
 import { UserService } from '../services/userService';
 
@@ -39,6 +39,7 @@ export class UserController extends Controller {
       throw new Error('Failed to get user by ID.');
     }
   }
+  @SuccessResponse("201", "Created")
   @Post("/")
   public async createNewUser(@Body() requestBody: UserCreationParams): Promise<IUser | null> {
     try {
