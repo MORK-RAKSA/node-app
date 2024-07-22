@@ -12,13 +12,13 @@ type Config = {
 function loadConfig(): Config {
   // Determine the environment and set the appropriate .env file
   const env = process.env.NODE_ENV || 'development';
-  const envPath = path.resolve(__dirname, `../configs/.env.${env}`);
+  const envPath = path.resolve(__dirname, `./configs/.env.${env}`);
   dotenv.config({ path: envPath });
 
   // Define a schema for the environment variables using yup
   const envVarsSchema = yup.object().shape({
     NODE_ENV: yup.string().oneOf(['development', 'production', 'test']).default('development'),
-    PORT: yup.number().default(3000),
+    PORT: yup.number().default(3001),
     MONGODB_URL: yup.string().required(),
   }).required();
 
