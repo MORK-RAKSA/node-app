@@ -1,7 +1,7 @@
 
 // src/server.ts
 import app from "@/src/app"
-import configs from "@/src/utils/config";
+import configs from "@/src/config";
 import {connectMongoDB} from './database/connectMongoDB'; 
 
 async function run() {
