@@ -30,7 +30,7 @@ esbuild.build({
           to: './',
         },
         {
-          from: './src/configs/.env.production',
+          from: './src/configs/.env.development',
           to: './configs',
         },
       ],
@@ -38,7 +38,7 @@ esbuild.build({
   ],
   resolveExtensions: ['.ts', '.js'],
   define: {
-    'process.env.NODE_ENV': '"production"'
+    'process.env.NODE_ENV': '"development"'
   },
   alias: {
     '@': path.resolve(__dirname, '.'),
