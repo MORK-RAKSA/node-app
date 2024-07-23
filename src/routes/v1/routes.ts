@@ -11,20 +11,12 @@ import type { Request as ExRequest, Response as ExResponse, RequestHandler, Rout
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "File": {
-        "dataType": "refObject",
-        "properties": {
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "IUser": {
         "dataType": "refObject",
         "properties": {
             "name": {"dataType":"string"},
             "age": {"dataType":"double"},
             "gender": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["Male"]},{"dataType":"enum","enums":["Female"]},{"dataType":"enum","enums":["Other"]}]},
-            "file": {"ref":"File"},
             "email": {"dataType":"string"},
         },
         "additionalProperties": false,
@@ -36,7 +28,6 @@ const models: TsoaRoute.Models = {
             "name": {"dataType":"string"},
             "age": {"dataType":"double"},
             "gender": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["Male"]},{"dataType":"enum","enums":["Female"]},{"dataType":"enum","enums":["Other"]}]},
-            "file": {"ref":"File"},
             "email": {"dataType":"string"},
         },
         "additionalProperties": false,
@@ -165,7 +156,7 @@ export function RegisterRoutes(app: Router) {
                 response,
                 next,
                 validatedArgs,
-                successStatus: undefined,
+                successStatus: 201,
               });
             } catch (err) {
                 return next(err);
