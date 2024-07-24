@@ -1,14 +1,13 @@
-#*?    /bin/bash
+#!/bin/bash
 
-#?   Ensure NVM is installed
+# Ensure NVM is installed
 if ! type nvm > /dev/null 2>&1; then
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
 fi
 
-#Load NVM
+# Load NVM
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # Install Node.js v20

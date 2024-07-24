@@ -1,9 +1,3 @@
-FROM node:18-alpine
+FROM node:18-alphine
 
-WORKDIR /usr/src/app
-
-COPY package*.json ./
-RUN yarn install
-EXPOSE 4000
-CMD [ "node", "server.ts"]
 
