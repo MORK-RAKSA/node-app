@@ -7,49 +7,59 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"IUser": {
+			"IItem": {
 				"properties": {
 					"name": {
 						"type": "string"
 					},
-					"age": {
+					"category": {
+						"type": "string"
+					},
+					"price": {
 						"type": "number",
 						"format": "double"
-					},
-					"gender": {
-						"type": "string",
-						"enum": [
-							"Male",
-							"Female",
-							"Other"
-						]
-					},
-					"email": {
-						"type": "string"
 					}
 				},
+				"required": [
+					"name",
+					"category",
+					"price"
+				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"UserCreationParams": {
+			"ProductCreateRequest": {
 				"properties": {
 					"name": {
 						"type": "string"
 					},
-					"age": {
+					"category": {
+						"type": "string"
+					},
+					"price": {
 						"type": "number",
 						"format": "double"
-					},
-					"gender": {
-						"type": "string",
-						"enum": [
-							"Male",
-							"Female",
-							"Other"
-						]
-					},
-					"email": {
+					}
+				},
+				"required": [
+					"name",
+					"category",
+					"price"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ProductUpdateRequest": {
+				"properties": {
+					"name": {
 						"type": "string"
+					},
+					"category": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"type": "object",
@@ -59,7 +69,7 @@
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": "product-service",
+		"title": "crudd",
 		"version": "1.0.0",
 		"license": {
 			"name": "MIT"
@@ -67,52 +77,16 @@
 		"contact": {}
 	},
 	"paths": {
-		"/v1/users": {
-			"get": {
-				"operationId": "GetAllUsers",
+		"/v1/products": {
+			"post": {
+				"operationId": "CreateItem",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/IUser"
-									},
-									"type": "array",
-									"nullable": true
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "sort",
-						"required": false,
-						"schema": {
-							"default": "desc",
-							"type": "string"
-						}
-					}
-				]
-			},
-			"post": {
-				"operationId": "CreateNewUser",
-				"responses": {
-					"201": {
-						"description": "Created",
-						"content": {
-							"application/json": {
-								"schema": {
-									"allOf": [
-										{
-											"$ref": "#/components/schemas/IUser"
-										}
-									],
-									"nullable": true
+									"$ref": "#/components/schemas/IItem"
 								}
 							}
 						}
@@ -125,16 +99,14 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/UserCreationParams"
+								"$ref": "#/components/schemas/ProductCreateRequest"
 							}
 						}
 					}
 				}
-			}
-		},
-		"/v1/users/{num}": {
+			},
 			"get": {
-				"operationId": "GetUser10",
+				"operationId": "GetAllProducts",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -142,7 +114,7 @@
 							"application/json": {
 								"schema": {
 									"items": {
-										"$ref": "#/components/schemas/IUser"
+										"$ref": "#/components/schemas/IItem"
 									},
 									"type": "array",
 									"nullable": true
@@ -154,20 +126,63 @@
 				"security": [],
 				"parameters": [
 					{
-						"in": "path",
-						"name": "num",
-						"required": true,
+						"in": "query",
+						"name": "page",
+						"required": false,
 						"schema": {
+							"default": 1,
 							"format": "double",
 							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"default": 10,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "price",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"asc",
+								"desc"
+							]
+						}
+					},
+					{
+						"in": "query",
+						"name": "productName",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"asc",
+								"desc"
+							]
+						}
+					},
+					{
+						"in": "query",
+						"name": "category",
+						"required": false,
+						"schema": {
+							"type": "string"
 						}
 					}
 				]
 			}
 		},
-		"/v1/users/{id}": {
+		"/v1/products/{id}": {
 			"get": {
-				"operationId": "GetUserByID",
+				"operationId": "GetItemById",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -176,7 +191,7 @@
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/IUser"
+											"$ref": "#/components/schemas/IItem"
 										}
 									],
 									"nullable": true
@@ -198,7 +213,7 @@
 				]
 			},
 			"put": {
-				"operationId": "UpdateUser",
+				"operationId": "UpdateItem",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -207,13 +222,16 @@
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/IUser"
+											"$ref": "#/components/schemas/IItem"
 										}
 									],
 									"nullable": true
 								}
 							}
 						}
+					},
+					"404": {
+						"description": "Product not found"
 					}
 				},
 				"security": [],
@@ -232,29 +250,17 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/IUser"
+								"$ref": "#/components/schemas/ProductUpdateRequest"
 							}
 						}
 					}
 				}
 			},
 			"delete": {
-				"operationId": "DeleteUser",
+				"operationId": "DeleteItemById",
 				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"allOf": [
-										{
-											"$ref": "#/components/schemas/IUser"
-										}
-									],
-									"nullable": true
-								}
-							}
-						}
+					"204": {
+						"description": "No content"
 					}
 				},
 				"security": [],

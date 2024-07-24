@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  app:
+    container_name: app-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file: ./src/configs/.env.development
+    environment:
+      - DOCKER_ENV=true
+      - MONGODB_URL = mongodb://mongo-container:27017/Products
+      - NODE_ENV=development
+    volumes:
+      - ./src:/app/src
+      - ./ecosystem.config.local.js:/app/ecosystem.config.local.js
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./nodemon.json:/app/nodemon.json
+      - ./tsoa.json:/app/tsoa.json
+      - ./build-script.js:/app/build-script.js
+      - /app/node_modules
+    command: yarn dev
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: mongo-container
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
